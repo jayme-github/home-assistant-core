@@ -242,11 +242,12 @@ class ClimateGroup(GroupEntity, ClimateEntity):
             # Merge all effects from all effect_lists with a union merge.
             self._attr_hvac_modes = list(set().union(*all_hvac_modes))
 
-        
         current_hvac_modes = [x.state for x in states if x.state != HVACMode.OFF]
         # return the most common hvac mode (what the thermostat is set to do) except OFF
         if current_hvac_modes:
-            self._attr_hvac_mode = max(set(current_hvac_modes), key=current_hvac_modes.count)
+            self._attr_hvac_mode = max(
+                set(current_hvac_modes), key=current_hvac_modes.count
+            )
         # return off if all are off
         elif all(x.state == HVACMode.OFF for x in states):
             self._attr_preset_mode = HVACMode.OFF
@@ -259,7 +260,9 @@ class ClimateGroup(GroupEntity, ClimateEntity):
         current_hvac_actions = [a for a in hvac_actions if a != HVACAction.OFF]
         # return the most common action if it is not off
         if current_hvac_actions:
-            self._attr_hvac_action = max(set(current_hvac_actions), key=current_hvac_actions.count)
+            self._attr_hvac_action = max(
+                set(current_hvac_actions), key=current_hvac_actions.count
+            )
         # return action off if all are off
         elif all(a == HVACAction.OFF for a in hvac_actions):
             self._attr_hvac_action = HVACAction.OFF
