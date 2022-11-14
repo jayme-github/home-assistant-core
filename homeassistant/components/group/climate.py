@@ -45,6 +45,7 @@ from homeassistant.const import (
     CONF_TEMPERATURE_UNIT,
     CONF_UNIQUE_ID,
     STATE_UNAVAILABLE,
+    UnitOfTemperature,
 )
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers import config_validation as cv, entity_registry as er
@@ -83,6 +84,20 @@ SUPPORT_FLAGS = (
     | ClimateEntityFeature.SWING_MODE
     | ClimateEntityFeature.FAN_MODE
 )
+
+
+@callback
+def async_create_preview_climate(
+    name: str, validated_config: dict[str, Any]
+) -> ClimateGroup:
+    """Create a preview sensor."""
+    return ClimateGroup(
+        None,
+        name,
+        validated_config[CONF_ENTITIES],
+        validated_config.get(CONF_TEMPERATURE_UNIT, UnitOfTemperature.CELSIUS),
+    )
+
 
 async def async_setup_platform(
     hass: HomeAssistant,
