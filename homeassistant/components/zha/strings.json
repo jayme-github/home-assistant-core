@@ -585,6 +585,9 @@
     "climate": {
       "thermostat": {
         "name": "[%key:component::climate::entity_component::_::name%]"
+      },
+      "climate_group": {
+        "name": "Climate group"
       }
     },
     "cover": {
